@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "test-webtronics"
+version = "0.1.0"
+description = ""
+authors = ["waterstark <waterstark97@yandex.ru>"]
+readme = "README.md"
+packages = [{include = "test_webtronics"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.99.1"
+uvicorn = "^0.22.0"
+alembic = "^1.11.1"
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.17"}
+asyncpg = "^0.27.0"
+python-dotenv = "^1.0.0"
+fastapi-users = {extras = ["sqlalchemy"], version = "^12.0.0"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
