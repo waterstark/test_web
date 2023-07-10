@@ -4,23 +4,11 @@ from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable
 from sqlalchemy import MetaData, String
 from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase
 
-
-class Base(DeclarativeBase):
-    metadata = MetaData()
+from database import Base
 
 
-# user = Table(
-#     "user",
-#     metadata,
-#     Column("id", Integer, primary_key=True),
-#     Column("email", String, nullable=False),
-#     Column("username", String, nullable=False),
-#     Column("hashed_password", String, nullable=False),
-#     Column("registered_at", TIMESTAMP, default=datetime.utcnow),
-#     Column("is_active", Boolean, default=True, nullable=False),
-#     Column("is_superuser", Boolean, default=False, nullable=False),
-#     Column("is_verified", Boolean, default=False, nullable=False),
-# )
+# class Base(DeclarativeBase):
+#     metadata = MetaData()
 
 
 class User(SQLAlchemyBaseUserTable[int], Base):
@@ -28,7 +16,7 @@ class User(SQLAlchemyBaseUserTable[int], Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     username: Mapped[str] = mapped_column(nullable=False)
-    registered_at: Mapped[datetime.utcnow] = mapped_column(default=datetime.utcnow)
+    registered_at: Mapped[datetime] = mapped_column(default=datetime.utcnow)
     email: Mapped[str] = mapped_column(
         String(length=320), unique=True, index=True, nullable=False
     )
