@@ -5,17 +5,12 @@ from sqlalchemy import pool
 
 from alembic import context
 
-
-import os
-import sys
-
-sys.path.append(os.path.join(sys.path[0], "src"))
-
 from src.config import DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER
 
-from src.auth.models import Base
-from src.posts.models import Base
+from src.database import Base
 
+from src.auth.models import User
+from src.posts.models import Post
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

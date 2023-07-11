@@ -4,7 +4,7 @@ from typing import Optional
 
 class Post(BaseModel):
     id: int
-    author_of_post: StrictStr
+    title: StrictStr
 
     class Config:
         orm_mode = True
@@ -25,10 +25,14 @@ class CreatePost(BaseModel):
 
 
 class EditPost(BaseModel):
-    author_of_post: Optional[StrictStr] | None
+    title: Optional[StrictStr] | None
 
     class Config:
         orm_mode = True
 
+
 class LikePost(BaseModel):
-    
+    like_or_dislike: int
+
+    class Config:
+        orm_mode = True

@@ -3,6 +3,7 @@ from sqlalchemy import delete, insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from posts.models import Post
+from auth.models import User
 from posts.schemas import ReadAllPosts, CreatePost, EditPost
 
 
@@ -28,9 +29,10 @@ async def upload_post(
     post = await session.execute(query)
     if post.scalar():
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
-    stmt = insert(Post).values(**new_post.data.dict())
-    await session.execute(stmt)
-    await session.commit()
+    print(new_post.data.dict())
+    # stmt = insert(Post).values(**new_post.data.dict(), owner_id=User.id)
+    # await session.execute(stmt)
+    # await session.commit()
     return {"data": new_post.data}
 
 
