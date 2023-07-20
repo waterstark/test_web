@@ -4,10 +4,6 @@ from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase
 from src.database import Base
 
 
-# class Base(DeclarativeBase):
-#     metadata = MetaData()
-
-
 class Post(Base):
     __tablename__ = "post"
 
@@ -17,3 +13,15 @@ class Post(Base):
     owner_id: Mapped[int] = mapped_column(
         ForeignKey("user.id", ondelete="CASCADE"), nullable=False
     )
+
+
+class Rating(Base):
+    __tablename__ = "rating"
+
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("user.id", ondelete=("CASCADE")), primary_key=True
+    )
+    post_id: Mapped[int] = mapped_column(
+        ForeignKey("post.id", ondelete=("CASCADE")), primary_key=True
+    )
+    like_is_toggeled: Mapped[bool | None] = mapped_column(default=None)

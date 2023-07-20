@@ -14,7 +14,9 @@ alembic = "^1.11.1"
 sqlalchemy = {extras = ["asyncio"], version = "^2.0.17"}
 asyncpg = "^0.27.0"
 python-dotenv = "^1.0.0"
-fastapi-users = {extras = ["sqlalchemy"], version = "^12.0.0"}
+redis = "^4.6.0"
+fastapi-users = "^12.1.0"
+aioredis = "^2.0.1"
 
 
 [build-system]

@@ -32,7 +32,8 @@ class EditPost(BaseModel):
 
 
 class LikePost(BaseModel):
-    like_or_dislike: int
+    post_id: int
+    like_is_toggeled: bool | None
 
     class Config:
         orm_mode = True
