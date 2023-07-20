@@ -1,5 +1,5 @@
+
 from pydantic import BaseModel, StrictStr
-from typing import Optional
 
 
 class Post(BaseModel):
@@ -25,7 +25,7 @@ class CreatePost(BaseModel):
 
 
 class EditPost(BaseModel):
-    title: Optional[StrictStr] | None
+    title: StrictStr | None | None
 
     class Config:
         orm_mode = True

@@ -9,8 +9,8 @@ from src.config import DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER
 
 from src.database import Base
 
-from src.auth.models import User
-from src.posts.models import Post
+from src.auth.models import User  # noqa: F401
+from src.posts.models import Post  # noqa: F401
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

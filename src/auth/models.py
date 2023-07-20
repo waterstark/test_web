@@ -1,14 +1,10 @@
 from datetime import datetime
 
 from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable
-from sqlalchemy import MetaData, String
-from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase
+from sqlalchemy import String
+from sqlalchemy.orm import Mapped, mapped_column
 
 from src.database import Base
-
-
-# class Base(DeclarativeBase):
-#     metadata = MetaData()
 
 
 class User(SQLAlchemyBaseUserTable[int], Base):
@@ -18,7 +14,7 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     username: Mapped[str] = mapped_column(nullable=False)
     registered_at: Mapped[datetime] = mapped_column(default=datetime.utcnow)
     email: Mapped[str] = mapped_column(
-        String(length=320), unique=True, index=True, nullable=False
+        String(length=320), unique=True, index=True, nullable=False,
     )
     hashed_password: Mapped[str] = mapped_column(String(length=1024), nullable=False)
     is_active: Mapped[bool] = mapped_column(default=True, nullable=False)

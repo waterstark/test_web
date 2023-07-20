@@ -2,13 +2,11 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import delete, insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.posts.models import Post, Rating
-from src.auth.models import User
-from src.posts.schemas import ReadAllPosts, CreatePost, EditPost, LikePost
-
 from src.auth.base_config import current_user
+from src.auth.models import User
 from src.database import get_async_session
-
+from src.posts.models import Post, Rating
+from src.posts.schemas import CreatePost, EditPost, LikePost, ReadAllPosts
 
 router = APIRouter(prefix="/posts", tags=["Post"])
 
@@ -32,7 +30,7 @@ async def upload_post(
     if post.scalar():
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"A post with such an ID already exists.",
+            detail="A post with such an ID already exists.",
         )
     stmt = insert(Post).values(**new_post.data.dict(), owner_id=user.id)
     await session.execute(stmt)
@@ -57,7 +55,7 @@ async def edit_post(
         )
     if fetched_post.owner_id != verified_user.id:
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail="unauthorized action"
+            status_code=status.HTTP_403_FORBIDDEN, detail="unauthorized action",
         )
     stmt = update(Post).values(**updated_post.dict()).where(Post.id == post_id)
     await session.execute(stmt)
@@ -81,7 +79,7 @@ async def upload_post(
         )
     if fetched_post.owner_id != verified_user.id:
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail="unauthorized action"
+            status_code=status.HTTP_403_FORBIDDEN, detail="unauthorized action",
         )
     stmt = delete(Post).where(post_id == Post.id)
     await session.execute(stmt)
@@ -104,16 +102,16 @@ async def rate_post(
         )
     if fetched_post.owner_id == verified_user.id:
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail="you can't rate your own post"
+            status_code=status.HTTP_403_FORBIDDEN, detail="you can't rate your own post",
         )
     query = select(Rating).where(
-        Rating.post_id == rating_from_user.post_id, Rating.user_id == verified_user.id
+        Rating.post_id == rating_from_user.post_id, Rating.user_id == verified_user.id,
     )
     vote = await session.execute(query)
     fetched_vote = vote.scalar()
     if fetched_vote is None and rating_from_user.like_is_toggeled:
         stmt = insert(Rating).values(
-            **rating_from_user.dict(), user_id=verified_user.id
+            **rating_from_user.dict(), user_id=verified_user.id,
         )
         await session.execute(stmt)
         stmt = (
@@ -124,7 +122,7 @@ async def rate_post(
         await session.execute(stmt)
     elif fetched_vote is None and not rating_from_user.like_is_toggeled:
         stmt = insert(Rating).values(
-            **rating_from_user.dict(), user_id=verified_user.id
+            **rating_from_user.dict(), user_id=verified_user.id,
         )
         await session.execute(stmt)
         stmt = (
